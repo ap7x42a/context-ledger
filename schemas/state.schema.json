@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-ledger/state.schema.json",
+  "title": "Context Ledger v2 composed state",
+  "type": "object",
+  "required": ["schema_version", "project_revision", "actor_revision", "project", "actor"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "project_revision": {"type": "integer", "minimum": 0},
+    "actor_revision": {"type": "integer", "minimum": 0},
+    "project": {
+      "type": "object",
+      "required": ["revision", "directives", "preferences", "decisions", "artifacts", "evidence"],
+      "properties": {
+        "revision": {"type": "integer", "minimum": 0},
+        "directives": {"type": "array"},
+        "preferences": {"type": "array"},
+        "decisions": {"type": "array"},
+        "artifacts": {"type": "array"},
+        "evidence": {"type": "array"}
+      }
+    },
+    "actor": {
+      "type": "object",
+      "required": ["actor_id", "revision", "active_task", "brainstorm", "commitments", "open_loops", "runtime"],
+      "properties": {
+        "actor_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "integer", "minimum": 0},
+        "active_task": {"type": ["object", "null"]},
+        "brainstorm": {"type": "array"},
+        "commitments": {"type": "array"},
+        "open_loops": {"type": "array"},
+        "active_deliberation": {"type": ["object", "null"]},
+        "runtime": {"type": "object"}
+      }
+    }
+  }
+}

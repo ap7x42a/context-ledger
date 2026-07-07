@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Ledger"
+  short_description: "Preserve continuity across compaction, resume, handoff, and long-running work."
+  default_prompt: "Use Context Ledger to capture source-event-backed state, checkpoint execution cursors, and restore after compaction or resume."

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-ledger/delta.schema.json",
+  "title": "Context Ledger v2 semantic delta",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["delta_id", "source_event_ids", "operations"],
+  "properties": {
+    "delta_id": {"type": "string", "minLength": 1},
+    "base_revision": {"type": "integer", "minimum": 0},
+    "base_project_revision": {"type": "integer", "minimum": 0},
+    "base_actor_revision": {"type": "integer", "minimum": 0},
+    "strict_revision": {"type": "boolean"},
+    "classify_user_sources": {"type": "boolean"},
+    "source_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^evt-[0-9]{12}$"}},
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["op", "data"],
+        "properties": {
+          "op": {
+            "enum": [
+              "set_active_task", "update_cursor", "add_directive", "set_directive_status",
+              "add_preference", "set_preference_status", "add_idea", "set_idea_status",
+              "add_decision", "set_decision_status", "add_commitment", "set_commitment_status",
+              "add_open_loop", "set_open_loop_status", "upsert_artifact", "set_artifact_status",
+              "add_evidence", "set_evidence_status", "set_active_deliberation", "clear_active_deliberation"
+            ]
+          },
+          "data": {"type": "object"},
+          "source_event_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^evt-[0-9]{12}$"}}
+        }
+      }
+    }
+  }
+}

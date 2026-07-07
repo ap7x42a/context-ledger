@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "checked_at": "YYYY-MM-DD",
+  "marker": "--context-ledger-hook-v2",
+  "runtimes": {
+    "claude-code": {
+      "documentation": "https://code.claude.com/docs/en/hooks",
+      "config_path": ".claude/settings.json",
+      "events": {
+        "SessionStart": {"matcher": "startup|resume|clear|compact", "required_fields": ["hook_event_name", "session_id", "cwd", "source"]},
+        "UserPromptSubmit": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "prompt"]},
+        "PostToolUse": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "tool_name", "tool_input", "tool_response"]},
+        "PostToolUseFailure": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "tool_name", "tool_input"]},
+        "Stop": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "stop_hook_active"]},
+        "PreCompact": {"matcher": "manual|auto", "required_fields": ["hook_event_name", "session_id", "cwd", "trigger"]},
+        "PostCompact": {"matcher": "manual|auto", "required_fields": ["hook_event_name", "session_id", "cwd", "trigger", "compact_summary"]}
+      }
+    },
+    "codex": {
+      "documentation": "https://developers.openai.com/codex/hooks",
+      "config_path": ".codex/hooks.json",
+      "events": {
+        "SessionStart": {"matcher": "startup|resume|clear|compact", "required_fields": ["hook_event_name", "session_id", "cwd", "source"]},
+        "UserPromptSubmit": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "turn_id", "prompt"]},
+        "PostToolUse": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "turn_id", "tool_name", "tool_input"]},
+        "Stop": {"matcher": null, "required_fields": ["hook_event_name", "session_id", "cwd", "turn_id", "stop_hook_active"]},
+        "PreCompact": {"matcher": "manual|auto", "required_fields": ["hook_event_name", "session_id", "cwd", "turn_id", "trigger"]},
+        "PostCompact": {"matcher": "manual|auto", "required_fields": ["hook_event_name", "session_id", "cwd", "turn_id", "trigger"]}
+      }
+    }
+  }
+}

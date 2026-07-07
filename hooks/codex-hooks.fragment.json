@@ -1,0 +1,17 @@
+{
+  "note": "Use scripts/install_hooks.py instead of copying this path-specific example; review and trust project hooks in Codex.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "__PYTHON__ __SKILL_ROOT__/hooks/runtime_hook.py --runtime codex --project-root __PROJECT_ROOT__ --context-ledger-hook-v2",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

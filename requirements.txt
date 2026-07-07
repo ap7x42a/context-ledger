@@ -1,0 +1,3 @@
+# Runtime: Python 3.10+ standard library only.
+# Storage: sqlite3 linked against SQLite 3.24+.
+# No package installation is required.

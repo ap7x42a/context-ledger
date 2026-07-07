@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-ledger/event.schema.json",
+  "title": "Context Ledger v2 event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "sequence", "event_id", "timestamp", "actor_id", "channel_id", "role", "event_type", "text", "payload", "session_id", "turn_id", "runtime", "prev_hash", "event_hash"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "sequence": {"type": "integer", "minimum": 1},
+    "event_id": {"type": "string", "pattern": "^evt-[0-9]{12}$"},
+    "timestamp": {"type": "string", "minLength": 1},
+    "actor_id": {"type": "string", "minLength": 1},
+    "channel_id": {"type": "string", "minLength": 1},
+    "role": {"enum": ["user", "assistant", "tool", "system"]},
+    "event_type": {"type": "string", "minLength": 1},
+    "text": {"type": ["string", "null"]},
+    "payload": {"type": "object"},
+    "session_id": {"type": ["string", "null"]},
+    "turn_id": {"type": ["string", "null"]},
+    "runtime": {"type": "string", "minLength": 1},
+    "prev_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "event_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

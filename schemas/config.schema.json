@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-ledger/config.schema.json",
+  "title": "Context Ledger v2 configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "default_actor", "actor_mode", "capture", "restore", "hooks", "retention", "database"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "default_actor": {"type": "string", "minLength": 1},
+    "actor_mode": {"enum": ["session", "runtime", "shared"]},
+    "default_channel": {"type": "string", "minLength": 1},
+    "channel_mode": {"enum": ["project", "session"]},
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["user_prompts", "assistant_messages", "assistant_max_chars", "tool_inputs", "tool_outputs", "tool_max_chars", "compact_summaries", "compact_summary_max_chars", "redact_patterns"],
+      "properties": {
+        "user_prompts": {"enum": ["full", "metadata", "none"]},
+        "assistant_messages": {"enum": ["full", "metadata", "none"]},
+        "assistant_max_chars": {"type": "integer", "minimum": 0},
+        "tool_inputs": {"enum": ["full", "metadata", "none"]},
+        "tool_outputs": {"enum": ["full", "metadata", "none"]},
+        "tool_max_chars": {"type": "integer", "minimum": 0},
+        "compact_summaries": {"enum": ["full", "metadata", "none"]},
+        "compact_summary_max_chars": {"type": "integer", "minimum": 0},
+        "redact_patterns": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "restore": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sources", "max_chars", "recent_exchanges", "recent_activity", "source_excerpt_chars", "include_pending"],
+      "properties": {
+        "sources": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "max_chars": {"type": "integer", "minimum": 1},
+        "recent_exchanges": {"type": "integer", "minimum": 0},
+        "recent_activity": {"type": "integer", "minimum": 0},
+        "source_excerpt_chars": {"type": "integer", "minimum": 0},
+        "include_pending": {"type": "boolean"}
+      }
+    },
+    "hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enforce_disposition_on_stop", "enforce_checkpoint_on_stop", "block_compaction_on_checkpoint_failure", "inject_capture_reminder", "archive_on_precompact"],
+      "properties": {
+        "enforce_disposition_on_stop": {"type": "boolean"},
+        "enforce_checkpoint_on_stop": {"type": "boolean"},
+        "block_compaction_on_checkpoint_failure": {"type": "boolean"},
+        "inject_capture_reminder": {"type": "boolean"},
+        "archive_on_precompact": {"type": "boolean"}
+      }
+    },
+    "retention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compact_summaries", "event_log"],
+      "properties": {
+        "compact_summaries": {"type": "boolean"},
+        "event_log": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mode", "max_live_events", "keep_live_events"],
+          "properties": {
+            "mode": {"enum": ["indefinite", "archive_by_count"]},
+            "max_live_events": {"type": "integer", "minimum": 2},
+            "keep_live_events": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    },
+    "database": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["busy_timeout_ms", "synchronous"],
+      "properties": {
+        "busy_timeout_ms": {"type": "integer", "minimum": 100},
+        "synchronous": {"enum": ["FULL", "NORMAL"]}
+      }
+    }
+  }
+}
