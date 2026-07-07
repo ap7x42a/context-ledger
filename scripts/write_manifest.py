@@ -23,11 +23,13 @@ class ManifestError(RuntimeError):
 def iter_files() -> Iterable[Path]:
     root = SKILL_ROOT.resolve()
     for path in sorted(root.rglob("*"), key=lambda item: item.as_posix()):
+        relative = path.relative_to(root)
+        if relative.parts and relative.parts[0] == ".git":
+            continue
         if path.is_symlink():
-            raise ManifestError(f"symlinks are not permitted in the package: {path.relative_to(root)}")
+            raise ManifestError(f"symlinks are not permitted in the package: {relative}")
         if not path.is_file():
             continue
-        relative = path.relative_to(root)
         if relative.name in EXCLUDED_NAMES:
             continue
         if "__pycache__" in relative.parts or relative.suffix in {".pyc", ".pyo"}:
